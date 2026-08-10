@@ -1,7 +1,7 @@
-"""Test fixtures: a throwaway SQLite file per test, and two clients.
+"""Test fixtures: a throwaway SQLite file per session, and two clients.
 
-The database URL and admin credentials are set before app modules are imported,
-because database.py builds its engine at import time.
+The database path and admin credentials are set before app modules are
+imported, because config's get_settings() caches on first use.
 """
 
 import os
@@ -17,8 +17,7 @@ TEST_SECRET = "test-secret-key"
 @pytest.fixture(scope="session", autouse=True)
 def _configure_env():
     tmpdir = tempfile.mkdtemp(prefix="nhs-test-")
-    db_path = Path(tmpdir) / "test.db"
-    os.environ["NHS_DATABASE_URL"] = f"sqlite:///{db_path}"
+    os.environ["NHS_DB_PATH"] = str(Path(tmpdir) / "test.db")
     os.environ["NHS_ADMIN_PASSWORD"] = TEST_PASSWORD
     os.environ["NHS_SECRET_KEY"] = TEST_SECRET
     yield
@@ -28,12 +27,18 @@ def _configure_env():
 def client(_configure_env):
     from fastapi.testclient import TestClient
 
-    from app.database import Base, engine
+    from app.database import connect, init_db
     from app.main import app
+    from app.routers.auth import _failures
 
-    # Fresh tables per test, so ordering assertions don't depend on run order.
-    Base.metadata.drop_all(bind=engine)
-    Base.metadata.create_all(bind=engine)
+    # Fresh table and a clean throttle per test, so ordering assertions and
+    # login counts don't depend on run order.
+    conn = connect()
+    conn.execute("DROP TABLE IF EXISTS events")
+    conn.commit()
+    conn.close()
+    init_db()
+    _failures.clear()
 
     with TestClient(app) as c:
         yield c

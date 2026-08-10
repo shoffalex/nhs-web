@@ -6,8 +6,9 @@
 #   systemctl status nhs-api
 #   journalctl -u nhs-api -f
 #
-# Assumes: repo at /srv/nhs-web, venv at /srv/nhs-web/backend/.venv,
-# a system user `nhs`, and /var/lib/nhs-web owned by that user.
+# Assumes: repo at /home/alex/GitHub/nhs-web, venv at
+# /home/alex/GitHub/nhs-web/backend/.venv, a system user `nhs`, and
+# /var/lib/nhs-web owned by that user.
 # See deploy/deploy.sh for the one-time setup that creates all of it.
 
 [Unit]
@@ -18,12 +19,12 @@ After=network.target
 Type=simple
 User=nhs
 Group=nhs
-WorkingDirectory=/srv/nhs-web/backend
+WorkingDirectory=/home/alex/GitHub/nhs-web/backend
 
 # Secrets live here, root-owned, mode 600 — never in the repo.
 EnvironmentFile=/etc/nhs-web.env
 
-ExecStart=/srv/nhs-web/backend/.venv/bin/uvicorn app.main:app \
+ExecStart=/home/alex/GitHub/nhs-web/backend/.venv/bin/uvicorn app.main:app \
     --host 127.0.0.1 \
     --port 8000 \
     --proxy-headers \
@@ -32,12 +33,13 @@ ExecStart=/srv/nhs-web/backend/.venv/bin/uvicorn app.main:app \
 Restart=on-failure
 RestartSec=3s
 
-# Only bind on loopback; nginx is the only thing that should reach this.
-# Hardening: the service needs to write the SQLite file and nothing else.
+# Only bind on loopback; Caddy is the only thing that should reach this.
+# Hardening: the service reads its code from /home/alex (hence read-only, not
+# true) and writes nothing but the SQLite file in /var/lib/nhs-web.
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
-ProtectHome=true
+ProtectHome=read-only
 ReadWritePaths=/var/lib/nhs-web
 ProtectKernelTunables=true
 ProtectKernelModules=true

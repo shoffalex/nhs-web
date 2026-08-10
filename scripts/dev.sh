@@ -7,7 +7,7 @@
 #   → API   http://127.0.0.1:8001/api/docs  (interactive OpenAPI docs)
 #
 # Two ports rather than one is deliberate: it matches how the site is served in
-# production (nginx for files, uvicorn for /api only), so you never write code
+# production (Caddy for files, uvicorn for /api only), so you never write code
 # that accidentally depends on FastAPI serving the HTML. site/assets/js/api.js
 # notices port 8000 and points itself at 8001.
 
@@ -24,7 +24,7 @@ if [[ ! -d "${VENV}" ]]; then
 fi
 
 # Local dev secrets. Real deploys read /etc/nhs-web.env instead.
-export NHS_DATABASE_URL="sqlite:///${ROOT}/backend/calendar.db"
+export NHS_DB_PATH="${ROOT}/backend/calendar.db"
 export NHS_SECRET_KEY="${NHS_SECRET_KEY:-dev-secret-not-for-production}"
 export NHS_ADMIN_PASSWORD="${NHS_ADMIN_PASSWORD:-dev}"
 

@@ -1,11 +1,10 @@
--- Initial schema. Kept as SQL so the production database can be created or
--- inspected without importing the app:
+-- The schema. app/database.py executes this at startup (everything is
+-- IF NOT EXISTS, so that is safe on every boot), and it works standalone too:
 --
 --   sqlite3 /var/lib/nhs-web/calendar.db < backend/migrations/001_init.sql
 --
--- app/main.py also calls create_all() on startup, so this file is a reference
--- and a recovery path rather than the only way in. If the two ever disagree,
--- models.py is the source of truth.
+-- This file is the single source of truth — there is no ORM model to drift
+-- from it.
 
 CREATE TABLE IF NOT EXISTS events (
     id            INTEGER PRIMARY KEY AUTOINCREMENT,

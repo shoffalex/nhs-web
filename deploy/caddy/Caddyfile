@@ -1,0 +1,41 @@
+# Caddyfile for the NHS chapter site.
+#
+#   sudo cp deploy/caddy/Caddyfile /etc/caddy/Caddyfile
+#   sudo caddy validate --config /etc/caddy/Caddyfile
+#   sudo systemctl reload caddy
+#
+# Caddy obtains and renews the Let's Encrypt certificates for these hostnames
+# by itself and redirects HTTP -> HTTPS on its own. For that to work the
+# Cloudflare DNS records must stay "DNS only" (grey cloud) — behind the orange
+# proxy the ACME challenge never reaches this box.
+#
+# Static files are served straight from the git checkout, so a deploy is just
+# `git pull` — no copy step that can go stale. The API is proxied on the same
+# origin, which is why the browser never needs CORS in production.
+
+pvnhs.com, www.pvnhs.com {
+	root * /home/alex/GitHub/nhs-web/site
+	encode gzip
+
+	header X-Content-Type-Options nosniff
+	header X-Frame-Options SAMEORIGIN
+	header Referrer-Policy strict-origin-when-cross-origin
+
+	request_body {
+		max_size 2MB
+	}
+
+	# If uvicorn is down, the API 502s but every static page still loads.
+	handle /api/* {
+		reverse_proxy 127.0.0.1:8000
+	}
+
+	@assets path /assets/*
+	header @assets Cache-Control "public, max-age=604800"
+
+	# Pretty URLs: /calendar serves calendar.html
+	handle {
+		try_files {path} {path}.html {path}/
+		file_server
+	}
+}

@@ -10,8 +10,8 @@ token can't be extended without the secret. Nothing is stored server-side, which
 means tokens survive a restart and cannot be revoked individually before expiry
 — if you need revocation, add a token table.
 
-What it deliberately does NOT do: rate-limit login attempts. Put that in nginx
-(limit_req on /api/auth/login) or add slowapi before exposing this publicly.
+Rate limiting of login attempts lives in routers/auth.py (in-process): Caddy,
+unlike nginx, ships no limit_req equivalent, so the proxy can't do it for us.
 """
 
 import hmac

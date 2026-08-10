@@ -8,7 +8,7 @@ Modernized rebuild of <https://pvsnhs.wixsite.com/pine-view-school-nhs>.
 ## Layout
 
 ```
-site/                  Everything nginx serves. No build step, no framework.
+site/                  Everything Caddy serves. No build step, no framework.
   index.html           Home — about, four pillars, requirements, timeline, FAQ, contact
   calendar.html        Public calendar, rendered from the API
   admin.html           Calendar editor (password-gated, noindex)
@@ -26,15 +26,14 @@ site/                  Everything nginx serves. No build step, no framework.
 backend/               FastAPI. Owns /api/* and nothing else.
   app/main.py          App, CORS, router mounting
   app/config.py        Settings from NHS_* env vars
-  app/database.py      Engine, session, get_db dependency
-  app/models.py        Event table
+  app/database.py      sqlite3 connections, pragmas, get_db dependency
   app/schemas.py       Request/response models — the API contract
   app/auth.py          Shared-password admin auth (see its docstring)
   app/routers/         events.py, auth.py
-  migrations/          001_init.sql — reference schema / recovery path
+  migrations/          001_init.sql — the schema, executed at startup
   tests/               pytest
 
-deploy/                nginx site config, systemd unit, deploy.sh
+deploy/                Caddyfile, systemd unit, deploy.sh
 scripts/dev.sh         Runs both servers locally
 ```
 
@@ -49,7 +48,7 @@ scripts/dev.sh         Runs both servers locally
 - Admin: <http://127.0.0.1:8000/admin.html>, password `dev`
 
 The first run creates `backend/.venv` and installs dependencies. Two ports is
-deliberate — it mirrors production, where nginx serves the files and uvicorn
+deliberate — it mirrors production, where Caddy serves the files and uvicorn
 only answers `/api`, so nothing can quietly come to depend on FastAPI serving
 HTML. `assets/js/api.js` notices port 8000 and targets 8001 automatically.
 
@@ -61,13 +60,16 @@ cd backend && ./.venv/bin/python -m pytest
 
 ## Architecture, in one paragraph
 
-nginx serves `site/` straight from the git checkout and proxies `/api/` to
-uvicorn on `127.0.0.1:8000`. They are separate on purpose: if the API process
+Caddy serves `site/` straight from the git checkout at
+`/home/alex/GitHub/nhs-web`, terminates TLS with certificates it obtains and
+renews itself, and proxies `/api/` to uvicorn on `127.0.0.1:8000`. They are
+separate on purpose: if the API process
 dies, every page still loads and the calendar shows "temporarily unavailable"
 instead of the whole site going down. Same-origin proxying also means the
 browser never issues a cross-origin request in production, so CORS is a
 dev-only concern. Data is SQLite at `/var/lib/nhs-web/calendar.db` — one writer,
-a few hundred rows a year, no reason for anything heavier.
+a few hundred rows a year, accessed through the stdlib `sqlite3` module — no
+ORM, no reason for anything heavier.
 
 ## The calendar
 
@@ -98,7 +100,8 @@ One shared password, an HMAC-signed token in `sessionStorage`, no user accounts.
 That fits a chapter with one or two officers editing a calendar, and it's the
 first thing to replace if that stops being true. Read the docstring at the top
 of `backend/app/auth.py` before changing it — it lists what the scheme does and
-doesn't protect against. Login is rate-limited in nginx, not in Python.
+doesn't protect against. Failed logins are rate-limited in the API itself
+(`app/routers/auth.py`) — Caddy has no `limit_req` equivalent to lean on.
 
 If both `NHS_ADMIN_PASSWORD` and `NHS_SECRET_KEY` are unset, every write
 endpoint returns 503. That is intentional: a half-configured server fails
@@ -106,28 +109,30 @@ closed rather than accepting anonymous edits.
 
 ## Deploying
 
-The server is Ubuntu 24.04. First time:
+The server is Ubuntu 24.04, serving from the checkout at
+`/home/alex/GitHub/nhs-web`. See `DEPLOYMENT.md` for the full first-time
+walkthrough (Caddy's apt repo, DNS, firewall); the short version:
 
 ```bash
-sudo apt update && sudo apt install -y nginx python3-venv git
-sudo git clone git@github.com:shoffalex/nhs-web.git /srv/nhs-web
-sudo bash /srv/nhs-web/deploy/deploy.sh     # creates user, dirs, venv, /etc/nhs-web.env
-sudo nano /etc/nhs-web.env                  # set NHS_ADMIN_PASSWORD
-sudo bash /srv/nhs-web/deploy/deploy.sh     # re-run to pick it up
+sudo apt install -y caddy python3-venv git            # caddy from its official apt repo
+git clone git@github.com:shoffalex/nhs-web.git ~/GitHub/nhs-web
+sudo bash ~/GitHub/nhs-web/deploy/deploy.sh   # creates user, dirs, venv, /etc/nhs-web.env
+sudo nano /etc/nhs-web.env                    # set NHS_ADMIN_PASSWORD
+sudo bash ~/GitHub/nhs-web/deploy/deploy.sh   # re-run to pick it up
 ```
 
 Afterwards, a deploy is just:
 
 ```bash
-sudo bash /srv/nhs-web/deploy/deploy.sh
+sudo bash /home/alex/GitHub/nhs-web/deploy/deploy.sh
 ```
 
 It's idempotent, never overwrites `/etc/nhs-web.env`, and won't touch the
-database. Logs: `journalctl -u nhs-api -f`.
+database. Logs: `journalctl -u nhs-api -f` and `journalctl -u caddy -f`.
 
-Worth doing before this is public: point a domain at the droplet and run
-`sudo certbot --nginx`. The admin password travels in a request body, so it is
-readable in transit until TLS is on.
+TLS needs no ceremony: Caddy fetches and renews the Let's Encrypt certificate
+itself, provided the Cloudflare DNS records stay **DNS-only (grey cloud)** so
+the ACME challenge reaches the droplet directly.
 
 ## Member documents
 
@@ -136,7 +141,7 @@ a public GitHub repo would make those PDFs permanently fetchable and indexable
 even after a delete. Copy them to the server directly instead:
 
 ```bash
-rsync -av ./local-pdfs/ digitalocean:/srv/nhs-web/site/documents/
+rsync -av ./local-pdfs/ digitalocean:GitHub/nhs-web/site/documents/
 ```
 
 If you make this repo private and would rather version them, drop those two
