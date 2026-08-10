@@ -1087,6 +1087,17 @@ img, svg { max-width: 100%; }
 .social a:hover { background: var(--yellow-300); color: var(--blue-900); transform: translateY(-2px); }
 .social svg { width: 18px; height: 18px; }
 
+.footer-actions { display: flex; align-items: center; gap: .9rem; }
+.admin-link {
+  display: inline-flex; align-items: center; gap: .45rem;
+  padding: .5rem 1rem; border-radius: 999px;
+  background: rgba(255, 255, 255, .08);
+  color: #d7e7f5; font-size: .85rem; font-weight: 600;
+  transition: background .2s var(--ease), color .2s var(--ease), transform .2s var(--ease);
+}
+.admin-link:hover { background: var(--yellow-300); color: var(--blue-900); transform: translateY(-2px); }
+.admin-link svg { width: 15px; height: 15px; }
+
 /* --------------------------------------------------------------------------
    Reveal-on-scroll
    -------------------------------------------------------------------------- */
