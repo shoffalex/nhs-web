@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calendar admin — Pine View School NHS</title>
+<!-- Private page: keep it out of search results. This is not access control —
+     the API is what enforces that. -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/calendar.css">
+<script>document.documentElement.className += " js";</script>
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2335679f'/><path d='M50 22 L72 34 v22 c0 14-10 21-22 24-12-3-22-10-22-24V34z' fill='%23f7dd85'/></svg>">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<header class="site-header">
+  <div class="wrap">
+    <nav class="nav" aria-label="Main">
+      <a class="brand" href="index.html">
+        <svg class="mark" viewBox="0 0 100 100" aria-hidden="true">
+          <rect width="100" height="100" rx="24" fill="#e2eefb"/>
+          <path d="M50 20 L74 33 v24c0 15-11 23-24 26-13-3-24-11-24-26V33z" fill="#35679f"/>
+          <path d="M50 36c-4 5-7 8-7 13a7 7 0 0 0 14 0c0-5-3-8-7-13z" fill="#f7dd85"/>
+          <rect x="46" y="58" width="8" height="14" rx="3" fill="#f7dd85"/>
+        </svg>
+        <span class="brand-text">
+          <span class="b1">Pine View School</span>
+          <span class="b2">National Honor Society</span>
+        </span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu">
+        <span></span>
+        <span class="sr-only">Toggle navigation menu</span>
+      </button>
+
+      <div class="nav-menu" id="nav-menu">
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="calendar.html">Calendar</a></li>
+          <li><a href="member-information.html">Member Info</a></li>
+          <li><a href="board.html">Board Members</a></li>
+          <li><a href="file-share.html">File Share</a></li>
+        </ul>
+        <div class="nav-cta">
+          <button class="btn btn-ghost btn-sm" type="button" data-logout hidden>Sign out</button>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="page-hero">
+    <div class="wrap">
+      <nav class="crumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a> <span aria-hidden="true">›</span>
+        <a href="calendar.html">Calendar</a> <span aria-hidden="true">›</span>
+        <span aria-current="page">Admin</span>
+      </nav>
+      <h1>Calendar admin</h1>
+      <p class="lede">
+        Add, edit, and remove the events shown on the public calendar. Changes are live as soon as
+        you save.
+      </p>
+    </div>
+  </section>
+
+  <!-- =============================================================== LOGIN -->
+  <section class="section tight section-white" data-login-panel hidden>
+    <div class="wrap">
+      <div class="card admin-login">
+        <h2>Sign in</h2>
+        <p class="hint" style="color: var(--ink-mute); font-size: .9rem; margin-bottom: 1.1rem;">
+          Enter the chapter admin password.
+        </p>
+
+        <form data-login-form novalidate>
+          <div class="field">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" autocomplete="current-password" required>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Sign in</button>
+          </div>
+          <p class="form-msg" data-login-msg hidden></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================================== ADMIN -->
+  <section class="section tight section-white" data-admin-panel hidden>
+    <div class="wrap">
+      <div class="admin-grid">
+
+        <!-- ---------------------------------------------------- event form -->
+        <div class="card">
+          <h2 data-form-title>Add an event</h2>
+
+          <form data-event-form novalidate>
+            <div class="field">
+              <label for="title">Title</label>
+              <input type="text" id="title" name="title" maxlength="200" required
+                     placeholder="Chapter meeting">
+            </div>
+
+            <div class="field">
+              <label for="event_date">Date</label>
+              <input type="date" id="event_date" name="event_date" required>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="start_time">Start time</label>
+                <input type="time" id="start_time" name="start_time">
+              </div>
+              <div class="field">
+                <label for="end_time">End time</label>
+                <input type="time" id="end_time" name="end_time">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="location">Location</label>
+              <input type="text" id="location" name="location" maxlength="200" placeholder="MPR">
+            </div>
+
+            <div class="field">
+              <label for="description">Notes</label>
+              <textarea id="description" name="description"
+                        placeholder="Optional detail shown under the event."></textarea>
+              <span class="hint">Visible to anyone on the public calendar.</span>
+            </div>
+
+            <label class="field-check">
+              <input type="checkbox" name="is_published" checked>
+              Published — uncheck to save it as a draft only you can see
+            </label>
+
+            <div class="form-actions">
+              <button class="btn btn-primary" type="submit">Save event</button>
+              <button class="btn btn-ghost" type="button" data-cancel-edit hidden>Cancel</button>
+            </div>
+
+            <p class="form-msg" data-form-msg hidden></p>
+          </form>
+        </div>
+
+        <!-- --------------------------------------------------- event list -->
+        <div>
+          <div class="section-head" style="margin-bottom: 1.4rem;">
+            <span class="eyebrow">All events</span>
+            <h2>Published and drafts</h2>
+          </div>
+
+          <p class="events-state" data-admin-state hidden></p>
+          <ul class="meet-list" data-admin-list></ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> Pine View School National Honor Society.</span>
+      <span><a href="calendar.html">Back to the public calendar</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/admin.js"></script>
+</body>
+</html>

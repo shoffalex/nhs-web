@@ -1,0 +1,42 @@
+# --- macOS ---
+.DS_Store
+
+# --- secrets ---
+# Real values live in /etc/nhs-web.env on the server; .env.example is the
+# committed template.
+.env
+*.env
+!.env.example
+
+# --- database ---
+# The live calendar lives at /var/lib/nhs-web/calendar.db on the server. Never
+# commit a database: a deploy would overwrite real data with a stale copy.
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+# --- python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# --- member documents ---
+# The chapter file library is members-only, so the PDFs are not committed —
+# a public repo would make them permanently fetchable and indexable.
+# Copy them to the server out of band:
+#   rsync -av ./local-pdfs/ digitalocean:/srv/nhs-web/site/documents/
+# If this repo is private and you would rather version them, delete these two
+# lines.
+site/documents/*
+!site/documents/README.txt
+
+# --- editors / logs ---
+.idea/
+.vscode/
+*.log

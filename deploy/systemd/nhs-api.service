@@ -1,0 +1,48 @@
+# FastAPI service unit.
+#
+#   sudo cp deploy/systemd/nhs-api.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now nhs-api
+#   systemctl status nhs-api
+#   journalctl -u nhs-api -f
+#
+# Assumes: repo at /srv/nhs-web, venv at /srv/nhs-web/backend/.venv,
+# a system user `nhs`, and /var/lib/nhs-web owned by that user.
+# See deploy/deploy.sh for the one-time setup that creates all of it.
+
+[Unit]
+Description=Pine View School NHS calendar API
+After=network.target
+
+[Service]
+Type=simple
+User=nhs
+Group=nhs
+WorkingDirectory=/srv/nhs-web/backend
+
+# Secrets live here, root-owned, mode 600 — never in the repo.
+EnvironmentFile=/etc/nhs-web.env
+
+ExecStart=/srv/nhs-web/backend/.venv/bin/uvicorn app.main:app \
+    --host 127.0.0.1 \
+    --port 8000 \
+    --proxy-headers \
+    --forwarded-allow-ips 127.0.0.1
+
+Restart=on-failure
+RestartSec=3s
+
+# Only bind on loopback; nginx is the only thing that should reach this.
+# Hardening: the service needs to write the SQLite file and nothing else.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/nhs-web
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,136 @@
+/* ==========================================================================
+   Calendar + admin — additions only.
+   Loaded after style.css and reuses its tokens, so the palette stays in
+   one place. Nothing here restyles an existing component.
+   ========================================================================== */
+
+/* ---------------------------------------------------------- status notices */
+
+.events-state {
+  padding: 1.1rem 1.25rem;
+  border: 1px dashed var(--blue-200);
+  border-radius: var(--r-md);
+  background: var(--blue-050);
+  color: var(--ink-soft);
+  font-size: .95rem;
+}
+
+.events-state.is-error {
+  border-color: var(--yellow-300);
+  background: var(--yellow-050);
+  color: var(--yellow-700);
+}
+
+/* A draft, visible only in the admin list. */
+.meet.is-draft { border-style: dashed; opacity: .8; }
+
+/* ------------------------------------------------------------------ forms */
+
+.field { display: grid; gap: .35rem; margin-bottom: 1rem; }
+
+.field > label {
+  font-size: .87rem;
+  font-weight: 650;
+  color: var(--ink-soft);
+}
+
+.field input[type="text"],
+.field input[type="date"],
+.field input[type="time"],
+.field input[type="password"],
+.field textarea {
+  width: 100%;
+  padding: .7rem .85rem;
+  font: inherit;
+  font-size: .95rem;
+  color: var(--ink);
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  transition: border-color .18s var(--ease), box-shadow .18s var(--ease);
+}
+
+.field input:focus-visible,
+.field textarea:focus-visible {
+  outline: none;
+  border-color: var(--blue-400);
+  box-shadow: 0 0 0 3px var(--blue-100);
+}
+
+.field textarea { min-height: 5.5rem; resize: vertical; }
+
+.field .hint { font-size: .82rem; color: var(--ink-mute); }
+
+.field-row { display: grid; gap: 1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 620px) { .field-row { grid-template-columns: minmax(0, 1fr); } }
+
+.field-check {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  font-size: .92rem;
+  color: var(--ink-soft);
+  margin-bottom: 1rem;
+}
+
+.form-actions { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
+
+/* --------------------------------------------------------------- messages */
+
+.form-msg {
+  margin-top: 1rem;
+  padding: .8rem 1rem;
+  border-radius: var(--r-sm);
+  font-size: .9rem;
+}
+
+.form-msg.is-ok { background: var(--blue-100); color: var(--blue-700); }
+.form-msg.is-error { background: var(--yellow-100); color: var(--yellow-700); }
+
+/* ----------------------------------------------------------- admin layout */
+
+.admin-grid {
+  display: grid;
+  gap: clamp(1.4rem, 3vw, 2.4rem);
+  grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
+  align-items: start;
+}
+
+@media (max-width: 940px) {
+  .admin-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+.admin-login { max-width: 420px; margin-inline: auto; }
+
+/* Row action buttons in the admin event list. */
+.meet-actions { display: flex; gap: .4rem; }
+
+.btn-icon {
+  padding: .4rem .7rem;
+  font-size: .82rem;
+  font-weight: 650;
+  color: var(--blue-700);
+  background: var(--white);
+  border: 1px solid var(--blue-200);
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  transition: background .18s var(--ease), border-color .18s var(--ease);
+}
+
+.btn-icon:hover { background: var(--blue-050); border-color: var(--blue-300); }
+.btn-icon.is-danger { color: var(--yellow-700); border-color: var(--yellow-300); }
+.btn-icon.is-danger:hover { background: var(--yellow-050); }
+
+/* The admin rows carry an extra actions column. */
+.meet.is-admin { grid-template-columns: 62px 1fr auto auto; }
+@media (max-width: 720px) {
+  .meet.is-admin { grid-template-columns: 62px 1fr; }
+  .meet.is-admin > .pill,
+  .meet.is-admin > .meet-actions { grid-column: 2; justify-self: start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .field input,
+  .field textarea,
+  .btn-icon { transition: none; }
+}
