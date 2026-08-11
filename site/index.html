@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="assets/css/style.css">
 <script>document.documentElement.className += " js";</script>
 
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2335679f'/><path d='M50 22 L72 34 v22 c0 14-10 21-22 24-12-3-22-10-22-24V34z' fill='%23f7dd85'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='48' fill='%2335679f'/><path d='M50 13c-7 9-12 14.5-12 21a12 12 0 0 0 24 0c0-6.5-5-12-12-21z' fill='%23f7dd85'/><path d='M38 46h24l-4.5 10h-15z' fill='%23e2eefb'/><path d='M50 63c-8-5.5-19-6-30-3.5v20.5c11-2.5 22-2 30 3.5z M50 63c8-5.5 19-6 30-3.5v20.5c-11-2.5-22-2-30 3.5z' fill='%23fbfdff'/></svg>"><rect width='100' height='100' rx='22' fill='%2335679f'/><path d='M50 22 L72 34 v22 c0 14-10 21-22 24-12-3-22-10-22-24V34z' fill='%23f7dd85'/></svg>">
 </head>
 <body>
 
@@ -22,10 +22,14 @@
     <nav class="nav" aria-label="Main">
       <a class="brand" href="index.html">
         <svg class="mark" viewBox="0 0 100 100" aria-hidden="true">
-          <rect width="100" height="100" rx="24" fill="#e2eefb"/>
-          <path d="M50 20 L74 33 v24c0 15-11 23-24 26-13-3-24-11-24-26V33z" fill="#35679f"/>
-          <path d="M50 36c-4 5-7 8-7 13a7 7 0 0 0 14 0c0-5-3-8-7-13z" fill="#f7dd85"/>
-          <rect x="46" y="58" width="8" height="14" rx="3" fill="#f7dd85"/>
+          <circle cx="50" cy="50" r="46" fill="#35679f"/>
+          <circle cx="50" cy="50" r="46" fill="none" stroke="#a5c9ee" stroke-width="3.5"/>
+          <rect x="46" y="50" width="8" height="30" rx="4" fill="#e2eefb"/>
+          <path d="M50 13c-7 9-12 14.5-12 21a12 12 0 0 0 24 0c0-6.5-5-12-12-21z" fill="#f7dd85"/>
+          <path d="M50 25c-3.8 5-6.5 8-6.5 11.5a6.5 6.5 0 0 0 13 0c0-3.5-2.7-6.5-6.5-11.5z" fill="#fdf6dc"/>
+          <path d="M38 46h24l-4.5 10h-15z" fill="#e2eefb"/>
+          <path d="M50 63c-8-5.5-19-6-30-3.5v20.5c11-2.5 22-2 30 3.5z" fill="#fbfdff"/>
+          <path d="M50 63c8-5.5 19-6 30-3.5v20.5c-11-2.5-22-2-30 3.5z" fill="#fbfdff"/>
         </svg>
         <span class="brand-text">
           <span class="b1">Pine View School</span>
@@ -43,8 +47,6 @@
           <li><a href="index.html" aria-current="page">Home</a></li>
           <li><a href="calendar.html">Calendar</a></li>
           <li><a href="member-information.html">Member Info</a></li>
-          <li><a href="board.html">Board Members</a></li>
-          <li><a href="file-share.html">File Share</a></li>
           <li><a href="index.html#contact">Contact</a></li>
         </ul>
         <div class="nav-cta">
@@ -95,30 +97,17 @@
 
         <div class="hero-art">
           <div class="emblem-card">
-            <svg viewBox="0 0 200 200" role="img" aria-label="NHS keystone and torch emblem">
-              <defs>
-                <linearGradient id="key" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#77a9dd"/>
-                  <stop offset="100%" stop-color="#35679f"/>
-                </linearGradient>
-                <linearGradient id="flame" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#fdf6dc"/>
-                  <stop offset="100%" stop-color="#f0cd55"/>
-                </linearGradient>
-              </defs>
-              <!-- keystone -->
-              <path d="M62 34h76l22 132H40z" fill="url(#key)"/>
-              <path d="M62 34h76l22 132H40z" fill="none" stroke="#24486f" stroke-width="3" stroke-linejoin="round"/>
-              <!-- torch -->
-              <rect x="92" y="98" width="16" height="52" rx="7" fill="#fdf6dc"/>
-              <rect x="83" y="92" width="34" height="11" rx="5.5" fill="#fdf6dc"/>
-              <path d="M100 44c-9 14-19 22-19 34a19 19 0 0 0 38 0c0-12-10-20-19-34z" fill="url(#flame)"/>
-              <path d="M100 62c-4 7-8 10-8 16a8 8 0 0 0 16 0c0-6-4-9-8-16z" fill="#fff" opacity=".75"/>
+            <svg viewBox="0 0 100 100" role="img" aria-label="Pine View School emblem: a torch and open book">
+              <circle cx="50" cy="50" r="46" fill="#35679f"/>
+              <circle cx="50" cy="50" r="46" fill="none" stroke="#a5c9ee" stroke-width="3.5"/>
+              <rect x="46" y="50" width="8" height="30" rx="4" fill="#e2eefb"/>
+              <path d="M50 13c-7 9-12 14.5-12 21a12 12 0 0 0 24 0c0-6.5-5-12-12-21z" fill="#f7dd85"/>
+              <path d="M50 25c-3.8 5-6.5 8-6.5 11.5a6.5 6.5 0 0 0 13 0c0-3.5-2.7-6.5-6.5-11.5z" fill="#fdf6dc"/>
+              <path d="M38 46h24l-4.5 10h-15z" fill="#e2eefb"/>
+              <path d="M50 63c-8-5.5-19-6-30-3.5v20.5c11-2.5 22-2 30 3.5z" fill="#fbfdff"/>
+              <path d="M50 63c8-5.5 19-6 30-3.5v20.5c-11-2.5-22-2-30 3.5z" fill="#fbfdff"/>
             </svg>
           </div>
-          <span class="float-chip c1"><span class="dot"></span> Grades 11 &amp; 12</span>
-          <span class="float-chip c2"><span class="dot"></span> Induction in late April</span>
-          <span class="float-chip c3"><span class="dot"></span> 2nd Tuesday, 1:10 pm</span>
         </div>
       </div>
     </div>
@@ -139,29 +128,6 @@
         </p>
       </div>
 
-      <div class="grid g-3">
-        <article class="card lift reveal">
-          <h3>A century of tradition</h3>
-          <p>
-            Unveiled over a century ago, the National Honor Society enshrines four pillars at its
-            heart. They are more than badges of honor — they are keys that unlock potential.
-          </p>
-        </article>
-        <article class="card lift reveal">
-          <h3>More than a GPA</h3>
-          <p>
-            Grades open the door, but membership is judged on the whole student: how you serve,
-            how you lead, and how you treat people when nobody is keeping score.
-          </p>
-        </article>
-        <article class="card lift reveal">
-          <h3>Rooted at Pine View</h3>
-          <p>
-            Our chapter meets monthly, supports school and community service, and is guided by a
-            student board alongside advisor Ms. Robin Melton.
-          </p>
-        </article>
-      </div>
     </div>
   </section>
 
@@ -256,12 +222,11 @@
         <span class="eyebrow">Membership requirements</span>
         <h2>Do you qualify?</h2>
         <p class="lede">
-          Candidates are reviewed against every item below — not just the GPA. Use the checker to
-          see where you stand.
+          Candidates are reviewed against every item below — not just the GPA.
         </p>
       </div>
 
-      <div class="req-layout">
+      <div style="max-width: 780px;">
 
         <div>
           <ul class="checklist">
@@ -335,26 +300,6 @@
           </div>
         </div>
 
-        <!-- Eligibility checker -->
-        <aside class="checker reveal" data-checker aria-labelledby="checker-title">
-          <h3 id="checker-title">Quick eligibility check</h3>
-          <p class="hint">Private to you — nothing is saved or sent anywhere.</p>
-
-          <label class="check-item"><input type="checkbox"> I will be a rising 11th or 12th grader</label>
-          <label class="check-item"><input type="checkbox"> My unweighted GPA is at least 3.5</label>
-          <label class="check-item"><input type="checkbox"> My weighted GPA is at least 4.0</label>
-          <label class="check-item"><input type="checkbox"> I have no academic dishonesty incidents</label>
-          <label class="check-item"><input type="checkbox"> My absences and tardies are minimal</label>
-          <label class="check-item"><input type="checkbox"> I have no disciplinary infractions</label>
-          <label class="check-item"><input type="checkbox"> I have substantial service hours outside school</label>
-          <label class="check-item"><input type="checkbox"> I am consistently involved in varied activities</label>
-
-          <div class="checker-bar">
-            <div class="meter" role="presentation"><i></i></div>
-            <p class="checker-out" role="status" aria-live="polite"></p>
-            <button class="btn btn-ghost btn-sm" type="button" data-checker-reset style="margin-top:.9rem;">Reset</button>
-          </div>
-        </aside>
 
       </div>
     </div>
@@ -423,75 +368,6 @@
     </div>
   </section>
 
-  <!-- ================================================================= FAQ -->
-  <section class="section section-white" id="faq">
-    <div class="wrap">
-      <div class="section-head center reveal">
-        <span class="eyebrow">Questions</span>
-        <h2>Frequently asked</h2>
-      </div>
-
-      <div class="faq reveal">
-        <details>
-          <summary>How many service hours do I actually need?</summary>
-          <div class="a">
-            <p>
-              The specific number is not released. This is intentional — publishing a threshold
-              invites applications built to hit a minimum rather than reflecting real involvement.
-              What is stated: the hours must be <strong>substantial</strong>, earned
-              <strong>outside of school</strong>, and <strong>not all related to club activities</strong>.
-            </p>
-          </div>
-        </details>
-        <details>
-          <summary>Do I ask teachers for recommendations?</summary>
-          <div class="a">
-            <p>
-              No. Students do not seek these out. Teachers make recommendations on the document
-              given out in February. Three recommendations are required.
-            </p>
-          </div>
-        </details>
-        <details>
-          <summary>My weighted GPA is above 4.0 but my unweighted is 3.4. Do I qualify?</summary>
-          <div class="a">
-            <p>
-              Both minimums must be met: 3.5 unweighted <em>and</em> 4.0 weighted. One does not
-              compensate for the other. Contact Ms. Melton if you have questions about how your GPA
-              is calculated.
-            </p>
-          </div>
-        </details>
-        <details>
-          <summary>When and where does the chapter meet?</summary>
-          <div class="a">
-            <p>
-              Meetings are on the <strong>2nd Tuesday of the month at 1:10 pm</strong>, in the
-              Auditorium unless otherwise stated. The full dated schedule is on the
-              <a href="member-information.html">Member Information</a> page.
-            </p>
-          </div>
-        </details>
-        <details>
-          <summary>When is induction?</summary>
-          <div class="a">
-            <p>Induction is held in late April or early May, after applications open on February 2nd.</p>
-          </div>
-        </details>
-        <details>
-          <summary>How do I keep up with chapter news?</summary>
-          <div class="a">
-            <p>
-              Follow <a href="https://www.instagram.com/nhspineview/" target="_blank" rel="noopener">@nhspineview</a>
-              on Instagram and check Schoology. Members can also find documents on the
-              <a href="file-share.html">File Share</a> page.
-            </p>
-          </div>
-        </details>
-      </div>
-    </div>
-  </section>
-
   <!-- ============================================================= CONTACT -->
   <section class="section section-blue" id="contact">
     <div class="wrap">
@@ -527,17 +403,6 @@
         </div>
       </div>
 
-      <div class="cta-band reveal" style="margin-top: clamp(2rem, 4vw, 3rem);">
-        <h2>Get involved today</h2>
-        <p class="lede">
-          Applications open February 2nd. Start logging service hours, stay involved, and keep your
-          grades where they need to be.
-        </p>
-        <div class="row">
-          <a class="btn btn-primary" href="#requirements">Check the requirements</a>
-          <a class="btn btn-accent" href="mailto:robin.melton@sarasotacountyschools.net">Contact the sponsor</a>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -549,10 +414,14 @@
       <div>
         <a class="brand" href="index.html">
           <svg class="mark" viewBox="0 0 100 100" aria-hidden="true">
-            <rect width="100" height="100" rx="24" fill="rgba(255,255,255,.12)"/>
-            <path d="M50 20 L74 33 v24c0 15-11 23-24 26-13-3-24-11-24-26V33z" fill="#c7dff7"/>
-            <path d="M50 36c-4 5-7 8-7 13a7 7 0 0 0 14 0c0-5-3-8-7-13z" fill="#f7dd85"/>
-            <rect x="46" y="58" width="8" height="14" rx="3" fill="#f7dd85"/>
+            <circle cx="50" cy="50" r="46" fill="#35679f"/>
+            <circle cx="50" cy="50" r="46" fill="none" stroke="#a5c9ee" stroke-width="3.5"/>
+            <rect x="46" y="50" width="8" height="30" rx="4" fill="#e2eefb"/>
+            <path d="M50 13c-7 9-12 14.5-12 21a12 12 0 0 0 24 0c0-6.5-5-12-12-21z" fill="#f7dd85"/>
+            <path d="M50 25c-3.8 5-6.5 8-6.5 11.5a6.5 6.5 0 0 0 13 0c0-3.5-2.7-6.5-6.5-11.5z" fill="#fdf6dc"/>
+            <path d="M38 46h24l-4.5 10h-15z" fill="#e2eefb"/>
+            <path d="M50 63c-8-5.5-19-6-30-3.5v20.5c11-2.5 22-2 30 3.5z" fill="#fbfdff"/>
+            <path d="M50 63c8-5.5 19-6 30-3.5v20.5c-11-2.5-22-2-30 3.5z" fill="#fbfdff"/>
           </svg>
           <span class="brand-text">
             <span class="b1">Pine View School</span>
@@ -571,8 +440,6 @@
           <li><a href="index.html">Home</a></li>
           <li><a href="calendar.html">Calendar</a></li>
           <li><a href="member-information.html">Member Information</a></li>
-          <li><a href="board.html">NHS Board Members</a></li>
-          <li><a href="file-share.html">File Share</a></li>
         </ul>
       </div>
 

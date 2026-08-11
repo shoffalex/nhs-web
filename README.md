@@ -9,19 +9,16 @@ Modernized rebuild of <https://pvsnhs.wixsite.com/pine-view-school-nhs>.
 
 ```
 site/                  Everything Caddy serves. No build step, no framework.
-  index.html           Home — about, four pillars, requirements, timeline, FAQ, contact
+  index.html           Home — four pillars, requirements, how to join, contact
   calendar.html        Public calendar, rendered from the API
   admin.html           Calendar editor (password-gated, noindex)
-  member-information.html
-  board.html
-  file-share.html
+  member-information.html  Meetings, sponsor, student board
   assets/css/style.css     Design system (pastel blue / pastel yellow / white)
   assets/css/calendar.css  Calendar + admin additions only
-  assets/js/main.js        Nav, scroll reveal, eligibility checker, meeting status
+  assets/js/main.js        Nav, scroll reveal, meeting status
   assets/js/api.js         The one place that knows where the API lives
   assets/js/calendar.js    Public calendar rendering
   assets/js/admin.js       Login, create / edit / delete
-  documents/           Chapter PDFs (gitignored — see below)
 
 backend/               FastAPI. Owns /api/* and nothing else.
   app/main.py          App, CORS, router mounting
@@ -134,19 +131,6 @@ TLS needs no ceremony: Caddy fetches and renews the Let's Encrypt certificate
 itself, provided the Cloudflare DNS records stay **DNS-only (grey cloud)** so
 the ACME challenge reaches the droplet directly.
 
-## Member documents
-
-`site/documents/*` is gitignored. The chapter file library is members-only, and
-a public GitHub repo would make those PDFs permanently fetchable and indexable
-even after a delete. Copy them to the server directly instead:
-
-```bash
-rsync -av ./local-pdfs/ digitalocean:GitHub/nhs-web/site/documents/
-```
-
-If you make this repo private and would rather version them, drop those two
-lines from `.gitignore`.
-
 ## Color scheme
 
 | Role | Token | Value |
@@ -165,12 +149,7 @@ can't meet WCAG AA on white. All colors are CSS custom properties at the top of
 ## Updating content
 
 - **Calendar** — use `/admin.html`. Nothing to edit by hand.
-- **Board members** — edit the `<article class="person">` blocks in `board.html`.
-  Add `class="person is-lead"` for yellow accent styling.
-- **Documents** — put the file in `site/documents/`, then convert that row in
-  `file-share.html` from a `<div class="file-row">` to
-  `<a class="file-row" href="documents/name.pdf">` and change the
-  `pill is-mute` "Not uploaded" badge to `pill` "Download".
+- **Board members** — edit the `board-list` items in `member-information.html`.
 - **Contact details** — footers on every page, plus the contact section of
   `index.html`.
 
@@ -180,7 +159,6 @@ can't meet WCAG AA on white. All colors are CSS custom properties at the top of
   `<li class="meet" data-date="…">`. Now that events come from the API, that
   page should fetch them too, or the two schedules will drift. `calendar.js`
   shows the pattern; `NHS.markMeetings()` is shared between them.
-- Board names and the meeting schedule were copied from the live site as of
-  August 2026 and need refreshing each school year.
-- The file-share rows are marked "Not uploaded" because the original library is
-  members-only; nothing links to a document that doesn't exist yet.
+- Board names (in `member-information.html`) and the meeting schedule were
+  copied from the live site as of August 2026 and need refreshing each school
+  year.

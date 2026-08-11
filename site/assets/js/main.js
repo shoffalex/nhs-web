@@ -78,51 +78,6 @@
     revealables.forEach(function (el) { el.classList.add('in'); });
   }
 
-  /* -------------------------------------------------- eligibility checker */
-
-  const checker = document.querySelector('[data-checker]');
-
-  if (checker) {
-    const boxes = checker.querySelectorAll('input[type="checkbox"]');
-    const fill = checker.querySelector('.meter i');
-    const out = checker.querySelector('.checker-out');
-    const reset = checker.querySelector('[data-checker-reset]');
-
-    function update() {
-      const total = boxes.length;
-      let done = 0;
-      boxes.forEach(function (b) { if (b.checked) done++; });
-      const pct = total ? Math.round((done / total) * 100) : 0;
-
-      if (fill) fill.style.width = pct + '%';
-      if (!out) return;
-
-      if (done === 0) {
-        out.innerHTML = 'Tick the boxes that describe you to see where you stand.';
-      } else if (done === total) {
-        out.innerHTML =
-          '<strong>All ' + total + ' boxes ticked.</strong> You look like a strong candidate — ' +
-          'watch for the application on February 2nd.';
-      } else {
-        out.innerHTML =
-          '<strong>' + done + ' of ' + total + '</strong> — ' +
-          (total - done) + ' area' + (total - done === 1 ? '' : 's') +
-          ' left to work on. Ms. Melton can advise on the rest.';
-      }
-    }
-
-    boxes.forEach(function (b) { b.addEventListener('change', update); });
-
-    if (reset) {
-      reset.addEventListener('click', function () {
-        boxes.forEach(function (b) { b.checked = false; });
-        update();
-      });
-    }
-
-    update();
-  }
-
   /* --------------------------------------------------- meeting schedule */
 
   // Marks meetings that have already happened and highlights the next one.
