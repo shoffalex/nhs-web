@@ -444,29 +444,6 @@ img, svg { max-width: 100%; }
   margin-top: 1.9rem;
 }
 
-.hero-stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.6rem 2.4rem;
-  margin-top: 2.4rem;
-  padding-top: 1.7rem;
-  border-top: 1px solid var(--line);
-}
-.hero-stats .stat .n {
-  display: block;
-  font-family: var(--font-display);
-  font-size: 1.75rem;
-  font-weight: 600;
-  color: var(--ink);
-  line-height: 1.1;
-}
-.hero-stats .stat .l {
-  font-size: .82rem;
-  color: var(--ink-mute);
-  font-weight: 600;
-  letter-spacing: .02em;
-}
-
 /* Emblem panel */
 .hero-art {
   position: relative;
