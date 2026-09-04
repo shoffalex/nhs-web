@@ -713,19 +713,6 @@ img, svg { max-width: 100%; }
 }
 
 /* --------------------------------------------------------------------------
-   Board list (member information page)
-   -------------------------------------------------------------------------- */
-
-.board-list { list-style: none; margin: .5rem 0 0; padding: 0; display: grid; gap: .55rem; }
-.board-list li {
-  display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
-  font-size: .93rem; border-bottom: 1px solid var(--line); padding-bottom: .55rem;
-}
-.board-list li:last-child { border-bottom: 0; padding-bottom: 0; }
-.board-list strong { color: var(--ink); font-weight: 650; }
-.board-list span { color: var(--ink-mute); font-size: .85rem; text-align: right; }
-
-/* --------------------------------------------------------------------------
    CTA band
    -------------------------------------------------------------------------- */
 
